@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Navbar } from "@/components/Navbar"
 import { BackgroundVideo } from "@/components/BackgroundVideo"
-import { Plus, Trash2 } from "lucide-react"
+import { Trash2 } from "lucide-react"
 
 export interface PlannerItem {
   id: string

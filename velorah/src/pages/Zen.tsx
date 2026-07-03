@@ -23,6 +23,9 @@ export function Zen() {
   const [isRunning, setIsRunning] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [customMinutes, setCustomMinutes] = useState("")
+  const [activeTask, setActiveTask] = useState(() => {
+    return localStorage.getItem("velorah-active-task") || ""
+  })
   const intervalRef = useRef<number | null>(null)
 
   // Mute state synced with localStorage
@@ -64,6 +67,22 @@ export function Zen() {
       : "Zen Mode · Velorah"
   }, [secondsLeft, isRunning])
 
+  useEffect(() => {
+    if (isComplete) {
+      const historyStr = localStorage.getItem("velorah-focus-history")
+      const history = historyStr ? JSON.parse(historyStr) : []
+      history.push({
+        id: Date.now().toString(),
+        duration: durationMinutes,
+        task: activeTask || "Zen focus session",
+        createdAt: Date.now(),
+      })
+      localStorage.setItem("velorah-focus-history", JSON.stringify(history))
+      localStorage.removeItem("velorah-active-task")
+      setActiveTask("")
+    }
+  }, [isComplete, activeTask, durationMinutes])
+
   const selectPreset = (minutes: number) => {
     setDurationMinutes(minutes)
     setSecondsLeft(minutes * 60)
@@ -95,9 +114,10 @@ export function Zen() {
       <Navbar
         ctaLabel="Exit Session"
         ctaTo="/"
-        minimal={true}
+        minimal={false}
         isMuted={isMuted}
         onMuteToggle={toggleMute}
+        active="Zen Focus"
       />
 
       <section className="relative z-10 flex flex-col items-center text-center px-6 pt-12 pb-24 min-h-[calc(100vh-96px)] justify-center">
@@ -117,6 +137,12 @@ export function Zen() {
         >
           Sit with the <em className="not-italic text-white/70">silence.</em> Let the work rise.
         </h1>
+
+        {activeTask && (
+          <div className="animate-fade-rise mt-4 px-4 py-1.5 rounded-full bg-white/15 border border-white/20 backdrop-blur-md text-xs text-white/90">
+            Focusing on: <span className="font-semibold text-white">{activeTask}</span>
+          </div>
+        )}
 
         <div className="animate-fade-rise-delay mt-14">
           <TimerRing

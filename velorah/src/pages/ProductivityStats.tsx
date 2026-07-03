@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Navbar } from "@/components/Navbar"
 import { BackgroundVideo } from "@/components/BackgroundVideo"
 import { Award, Clock, CheckSquare, BarChart } from "lucide-react"
@@ -11,12 +11,12 @@ export interface FocusSession {
 }
 
 export function ProductivityStats() {
-  const [history, setHistory] = useState<FocusSession[]>(() => {
+  const [history] = useState<FocusSession[]>(() => {
     const saved = localStorage.getItem("velorah-focus-history")
     return saved ? JSON.parse(saved) : []
   })
 
-  const [tasks, setTasks] = useState(() => {
+  const [tasks] = useState(() => {
     const saved = localStorage.getItem("velorah-tasks")
     return saved ? JSON.parse(saved) : []
   })
