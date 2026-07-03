@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom"
 import { Volume2, VolumeX } from "lucide-react"
 
-const NAV_LINKS = ["Home", "Studio", "About", "Journal", "Reach Us"]
+const NAV_LINKS = [
+  { label: "Home", to: "/" },
+  { label: "Zen Focus", to: "/zen" },
+  { label: "Task Manager", to: "/tasks" },
+  { label: "Planner", to: "/planner" },
+  { label: "Productivity", to: "/stats" },
+]
 
 interface NavbarProps {
   active?: string
@@ -51,17 +57,17 @@ export function Navbar({
       {!minimal && (
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
-            <a
-              key={link}
-              href={link === "Home" ? "/" : "#"}
+            <Link
+              key={link.label}
+              to={link.to}
               className={
-                link === active
-                  ? "text-sm text-foreground transition-colors"
-                  : "text-sm text-muted-foreground transition-colors hover:text-foreground"
+                link.label === active
+                  ? "text-sm text-white transition-colors border-b border-white pb-1 font-medium"
+                  : "text-sm text-white/60 transition-colors hover:text-white pb-1"
               }
             >
-              {link}
-            </a>
+              {link.label}
+            </Link>
           ))}
         </div>
       )}

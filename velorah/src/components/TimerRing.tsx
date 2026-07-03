@@ -45,12 +45,20 @@ export function TimerRing({ progress, isRunning, label, sublabel }: TimerRingPro
 
       <div className="absolute flex flex-col items-center justify-center text-center">
         <span
-          className="text-6xl sm:text-7xl text-foreground tabular-nums"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+          className="text-6xl sm:text-7xl text-white tabular-nums"
+          style={{
+            fontFamily: "'Instrument Serif', serif",
+            textShadow: "0 2px 12px rgba(0,0,0,0.8)",
+          }}
         >
           {label}
         </span>
-        <span className="mt-2 text-xs uppercase tracking-[0.3em] text-muted-foreground">
+        <span
+          className="mt-2 text-[10px] uppercase tracking-[0.3em] text-white/70"
+          style={{
+            textShadow: "0 1px 5px rgba(0,0,0,0.8)",
+          }}
+        >
           {sublabel}
         </span>
       </div>

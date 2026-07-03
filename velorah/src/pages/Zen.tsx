@@ -22,6 +22,7 @@ export function Zen() {
   const [secondsLeft, setSecondsLeft] = useState(25 * 60)
   const [isRunning, setIsRunning] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [customMinutes, setCustomMinutes] = useState("")
   const intervalRef = useRef<number | null>(null)
 
   // Mute state synced with localStorage
@@ -100,15 +101,21 @@ export function Zen() {
       />
 
       <section className="relative z-10 flex flex-col items-center text-center px-6 pt-12 pb-24 min-h-[calc(100vh-96px)] justify-center">
-        <p className="animate-fade-rise text-xs uppercase tracking-[0.35em] text-muted-foreground">
+        <p
+          className="animate-fade-rise text-xs uppercase tracking-[0.35em] text-white/95"
+          style={{ textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}
+        >
           Zen Mode
         </p>
 
         <h1
-          className="animate-fade-rise mt-4 text-4xl sm:text-5xl leading-[0.95] tracking-[-1.5px] text-foreground"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+          className="animate-fade-rise mt-4 text-4xl sm:text-5xl leading-[0.95] tracking-[-1.5px] text-white"
+          style={{
+            fontFamily: "'Instrument Serif', serif",
+            textShadow: "0 2px 15px rgba(0,0,0,0.9)",
+          }}
         >
-          Sit with the <em className="not-italic text-muted-foreground">silence.</em> Let the work rise.
+          Sit with the <em className="not-italic text-white/70">silence.</em> Let the work rise.
         </h1>
 
         <div className="animate-fade-rise-delay mt-14">
@@ -124,7 +131,7 @@ export function Zen() {
           <button
             onClick={reset}
             aria-label="Reset timer"
-            className="liquid-glass rounded-full p-4 text-foreground transition-transform hover:scale-[1.05]"
+            className="bg-black/60 border border-white/20 backdrop-blur-md text-white hover:bg-black/85 hover:border-white/40 hover:scale-[1.05] rounded-full p-4 transition-all duration-300"
           >
             <RotateCcw className="h-5 w-5" strokeWidth={1.5} />
           </button>
@@ -132,13 +139,13 @@ export function Zen() {
           <button
             onClick={toggleRunning}
             aria-label={isRunning ? "Pause timer" : "Start timer"}
-            className="liquid-glass rounded-full px-10 py-4 text-sm text-foreground transition-transform hover:scale-[1.03]"
+            className="bg-white text-black font-semibold hover:bg-white/90 hover:scale-[1.03] rounded-full px-10 py-4 text-sm transition-all duration-300 shadow-[0_0_25px_rgba(255,255,255,0.3)]"
           >
             <span className="flex items-center gap-2">
               {isRunning ? (
-                <Pause className="h-4 w-4" strokeWidth={1.5} />
+                <Pause className="h-4 w-4" strokeWidth={2} />
               ) : (
-                <Play className="h-4 w-4" strokeWidth={1.5} />
+                <Play className="h-4 w-4" strokeWidth={2} />
               )}
               {isRunning ? "Pause" : isComplete ? "Begin again" : "Start focus"}
             </span>
@@ -149,16 +156,44 @@ export function Zen() {
           {PRESETS.map((preset) => (
             <button
               key={preset.label}
-              onClick={() => selectPreset(preset.minutes)}
+              onClick={() => {
+                selectPreset(preset.minutes)
+                setCustomMinutes("")
+              }}
               className={
-                preset.minutes === durationMinutes
-                  ? "liquid-glass rounded-full px-5 py-2 text-xs text-foreground transition-transform hover:scale-[1.03]"
-                  : "rounded-full px-5 py-2 text-xs text-muted-foreground border border-border transition-colors hover:text-foreground"
+                preset.minutes === durationMinutes && customMinutes === ""
+                  ? "bg-white text-black font-medium shadow-[0_0_15px_rgba(255,255,255,0.3)] rounded-full px-5 py-2 text-xs transition-all duration-300 hover:scale-[1.03]"
+                  : "bg-black/60 border border-white/20 backdrop-blur-md text-white/80 hover:bg-black/85 hover:text-white hover:border-white/40 rounded-full px-5 py-2 text-xs transition-all duration-300 hover:scale-[1.02]"
               }
             >
               {preset.label} · {preset.minutes}
             </button>
           ))}
+
+          {/* Custom Time Limit Input Option */}
+          <div className="flex items-center gap-2 bg-black/60 border border-white/20 backdrop-blur-md rounded-full px-5 py-1.5 text-xs text-white/80 transition-all duration-300 hover:border-white/40">
+            <span className="text-white/60">Custom:</span>
+            <input
+              type="number"
+              min="1"
+              max="720"
+              placeholder="00"
+              value={customMinutes}
+              onChange={(e) => {
+                const val = e.target.value
+                setCustomMinutes(val)
+                const min = parseInt(val, 10)
+                if (!isNaN(min) && min > 0 && min <= 720) {
+                  setDurationMinutes(min)
+                  setSecondsLeft(min * 60)
+                  setIsRunning(false)
+                  setIsComplete(false)
+                }
+              }}
+              className="w-8 bg-transparent border-b border-white/30 focus:border-white text-center text-white outline-none font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span className="text-white/60">min</span>
+          </div>
         </div>
       </section>
     </div>
