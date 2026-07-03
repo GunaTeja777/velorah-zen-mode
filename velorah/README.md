@@ -1,65 +1,42 @@
-# 🌌 Velorah — Where dreams rise through the silence
+# Velorah
 
-Velorah is a premium, minimalist, and focus-oriented digital workspace designed for deep thinkers, bold creators, and quiet rebels. It provides a sanctuary from digital noise, combining immersive nature-inspired visuals, ambient audio controls, and an integrated suite of productivity tools to help you enter and sustain flow state.
+Cinematic hero landing page with a fullscreen looping video background, glassmorphic navigation, and an in-app "Zen Mode" focus timer for deep work / studying — built with React, Vite, TypeScript, Tailwind CSS, and shadcn/ui.
 
-<div align="center">
-  <img src="src/assets/screenshot.png" alt="Velorah Landing Page Hero View" width="850">
-  <p><em>Figure 1: Immersive glassmorphic landing page with nature background, glowing accents, and elegant typography.</em></p>
-</div>
-
----
-
-## 💡 The Philosophy
-
-In an era of hyper-distraction, productivity isn't about doing *more*—it's about doing what matters with undivided attention. Velorah provides a digital focus space by:
-- **Calming the Mind**: Organic background animations and customizable ambient audio mask external sensory noise.
-- **Simplifying Execution**: Streamlined task tracking and hourly time blocking separate planning from doing.
-- **Encouraging Reflection**: Visual stats track your focus journey without gamified pressure.
-
----
-
-## 🚀 Key Features
-
-### 1. Immersive Backdrops & Seamless Looping
-* **Landing Page Backdrop**: A beautiful, local cinematic video (`/Create_a_cinematic_ultra_real.mp4`) looping seamlessly in the background.
-* **Workspace backdrop**: An atmospheric study-oriented CloudFront video resource loaded dynamically inside the workspace screens.
-* **Dual-Video Crossfade Buffer (100% Gapless Loop)**: Built with an advanced overlapping player architecture that pre-buffers the video and crossfades opacity over 1.2 seconds to eliminate native browser looping stutter or gaps.
-
-### 2. High-Contrast Readability & Accessibility
-* All text overlays, title elements, and timer numbers feature custom text-shadow backing (`textShadow: "0 2px 12px rgba(0,0,0,0.8)"`) ensuring absolute readability against both light and dark video frames.
-* Buttons utilize premium high-contrast styling: unselected options render in dark transparent glassmorphism, and active items render in solid white with black text.
-
-### 3. Integrated Workspace Suite
-* **Zen Focus Timer**: Standard focus duration presets alongside a **Custom Timer Input** field allowing you to input any limit from 1 to 720 minutes.
-* **Task Manager**: Add, complete, and delete tasks. Press the direct focus launch button on any task to load it directly into your active timer focus session.
-* **Daily Planner**: Map specific study activities and goals to chronological hourly slots throughout the day.
-* **Productivity Stats**: View your live **Productivity Score** based on completed focus sessions and task checklist updates, total productive hours, and a session log.
-
-### 4. Stateful Audio Control
-* An elegant glassmorphic navbar volume toggle allows you to mute or unmute the video's high-fidelity audio track. Mute preference is synced to local storage and persists across sessions.
-
----
-
-## 🛠️ Technology Stack
-
-* **Frontend Framework**: React (TypeScript) + Vite
-* **Styling**: TailwindCSS (with customized glassmorphism utilities)
-* **Icons**: Lucide React
-* **State Persistence**: HTML5 LocalStorage
-
----
-
-## 💻 Local Setup & Development
-
-To get Velorah running locally, execute:
+## Getting started
 
 ```bash
-# Install dependencies
 npm install
-
-# Start local development server
 npm run dev
-
-# Run linter
-npm run lint
 ```
+
+![Velorah Screenshot](src/assets/screenshot.png)
+
+## Build for production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Structure
+
+- `src/pages/Hero.tsx` — the landing page (video background, glass nav, cinematic headline, "Begin Journey" CTA)
+- `src/pages/Zen.tsx` — the focus/study timer page you land on after clicking "Begin Journey" (`/zen` route)
+- `src/pages/TaskManager.tsx` — the task manager page with creation, completion, and direct focus capabilities (`/tasks` route)
+- `src/pages/PlannerPage.tsx` — the daily planner page mapping study activities to hourly time slots (`/planner` route)
+- `src/pages/ProductivityStats.tsx` — the productivity score dashboard with total focus hours and logs (`/stats` route)
+- `src/components/BackgroundVideo.tsx` — shared fullscreen looping `<video>` background with dual-video crossfading
+- `src/components/Navbar.tsx` — shared glassmorphic nav bar with SPA Link routing and volume control
+- `src/components/TimerRing.tsx` — SVG progress ring used by Zen Mode
+- `src/components/ui/button.tsx` — shadcn/ui button primitive
+- `src/index.css` — theme tokens (HSL CSS variables), Google Fonts import, `.liquid-glass` effect, and `fade-rise` / ambient-pulse keyframes
+
+## Zen Focus Mode
+
+Clicking "Begin Journey" (from the nav or the hero CTA) routes to `/zen`, a fullscreen focus timer that keeps the same video background, typography, and liquid-glass styling as the hero:
+
+- Presets: Sprint (15m), Focus (25m), Deep Work (50m), Flow (90m) + Custom input minutes
+- Start / pause / reset controls
+- High-contrast accessibility: Drop shadows on all texts and bold selected option styling
+- An animated SVG progress ring that pulses gently while a session is running
+- "Exit Session" returns to the hero page
