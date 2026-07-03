@@ -9,7 +9,7 @@ npm install
 npm run dev
 ```
 
-![Velorah Screenshot](src/assets/screenshot.png)
+![Velorah Screenshot](image.png)
 
 ## Build for production
 
