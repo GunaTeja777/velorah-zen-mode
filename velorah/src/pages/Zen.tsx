@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Pause, Play, RotateCcw } from "lucide-react"
-import { ThemeBackground } from "@/components/ThemeBackground"
+import { BackgroundVideo } from "@/components/BackgroundVideo"
 import { TimerRing } from "@/components/TimerRing"
 import { Navbar } from "@/components/Navbar"
 
@@ -11,14 +11,6 @@ const PRESETS = [
   { label: "Flow", minutes: 90 },
 ]
 
-const THEMES = [
-  { id: "cinematic", label: "Cinematic" },
-  { id: "flowers", label: "Flowers" },
-  { id: "butterflies", label: "Butterflies" },
-  { id: "mountains", label: "Mountains" },
-  { id: "trees", label: "Trees" },
-]
-
 function formatTime(totalSeconds: number) {
   const m = Math.floor(totalSeconds / 60)
   const s = totalSeconds % 60
@@ -26,9 +18,6 @@ function formatTime(totalSeconds: number) {
 }
 
 export function Zen() {
-  const [activeTheme, setActiveTheme] = useState(() => {
-    return localStorage.getItem("velorah-theme") || "cinematic"
-  })
   const [durationMinutes, setDurationMinutes] = useState(25)
   const [secondsLeft, setSecondsLeft] = useState(25 * 60)
   const [isRunning, setIsRunning] = useState(false)
@@ -100,7 +89,7 @@ export function Zen() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
-      <ThemeBackground theme={activeTheme} isMuted={isMuted} />
+      <BackgroundVideo src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4" muted={isMuted} />
 
       <Navbar
         ctaLabel="Exit Session"
@@ -170,30 +159,6 @@ export function Zen() {
               {preset.label} · {preset.minutes}
             </button>
           ))}
-        </div>
-
-        <div className="animate-fade-rise-delay-2 mt-10 flex flex-col items-center gap-2.5">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/80 font-medium">
-            Background Theme
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {THEMES.map((themeItem) => (
-              <button
-                key={themeItem.id}
-                onClick={() => {
-                  setActiveTheme(themeItem.id)
-                  localStorage.setItem("velorah-theme", themeItem.id)
-                }}
-                className={
-                  themeItem.id === activeTheme
-                    ? "liquid-glass rounded-full px-4 py-1.5 text-xs text-foreground transition-all hover:scale-[1.03]"
-                    : "rounded-full px-4 py-1.5 text-xs text-muted-foreground border border-border transition-all hover:text-foreground hover:border-muted-foreground/30 hover:scale-[1.02]"
-                }
-              >
-                {themeItem.label}
-              </button>
-            ))}
-          </div>
         </div>
       </section>
     </div>
