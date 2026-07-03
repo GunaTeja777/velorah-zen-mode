@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { BackgroundVideo } from "@/components/BackgroundVideo"
 import { Navbar } from "@/components/Navbar"
@@ -5,11 +6,33 @@ import { Navbar } from "@/components/Navbar"
 export function Hero() {
   const navigate = useNavigate()
 
+  // Mute state synced with localStorage (default true for autoplay compliance)
+  const [isMuted, setIsMuted] = useState(() => {
+    const saved = localStorage.getItem("velorah-sound-muted")
+    return saved !== null ? JSON.parse(saved) : true
+  })
+
+  const toggleMute = () => {
+    setIsMuted((prev: boolean) => {
+      const next = !prev
+      localStorage.setItem("velorah-sound-muted", JSON.stringify(next))
+      return next
+    })
+  }
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
-      <BackgroundVideo src="/Create_a_cinematic_ultra_real.mp4" />
+      <BackgroundVideo
+        src="/Create_a_cinematic_ultra_real.mp4"
+        muted={isMuted}
+      />
 
-      <Navbar active="Home" ctaTo="/zen" />
+      <Navbar
+        active="Home"
+        ctaTo="/zen"
+        isMuted={isMuted}
+        onMuteToggle={toggleMute}
+      />
 
       <section className="relative z-10 flex flex-col items-center text-center px-6 pt-32 pb-40 py-[90px]">
         <h1

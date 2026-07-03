@@ -6,7 +6,6 @@ import { ambientSound } from "@/lib/audio"
 interface ThemeBackgroundProps {
   theme: string
   isMuted?: boolean
-  isZoomed?: boolean
 }
 
 // Particle types
@@ -76,7 +75,7 @@ interface Leaf {
   color: string
 }
 
-export function ThemeBackground({ theme, isMuted = true, isZoomed = true }: ThemeBackgroundProps) {
+export function ThemeBackground({ theme, isMuted = true }: ThemeBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -705,7 +704,7 @@ export function ThemeBackground({ theme, isMuted = true, isZoomed = true }: Them
 
   if (theme === "cinematic") {
     // If the theme is cinematic, we render the BackgroundVideo (which renders HERO_VIDEO_URL)
-    return <BackgroundVideo src={HERO_VIDEO_URL} muted={isMuted} isZoomed={isZoomed} />
+    return <BackgroundVideo src={HERO_VIDEO_URL} muted={isMuted} />
   }
 
   return (

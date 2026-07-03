@@ -273,7 +273,7 @@ class AmbientSynthesizer {
       this.sources.forEach((src) => {
         try {
           src.stop()
-        } catch (e) {}
+        } catch {}
       })
       this.sources = []
     }, 600)

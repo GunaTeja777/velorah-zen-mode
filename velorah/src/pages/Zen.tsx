@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
 import { Pause, Play, RotateCcw } from "lucide-react"
 import { ThemeBackground } from "@/components/ThemeBackground"
 import { TimerRing } from "@/components/TimerRing"
+import { Navbar } from "@/components/Navbar"
 
 const PRESETS = [
   { label: "Sprint", minutes: 15 },
@@ -34,6 +34,20 @@ export function Zen() {
   const [isRunning, setIsRunning] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const intervalRef = useRef<number | null>(null)
+
+  // Mute state synced with localStorage
+  const [isMuted, setIsMuted] = useState(() => {
+    const saved = localStorage.getItem("velorah-sound-muted")
+    return saved !== null ? JSON.parse(saved) : true
+  })
+
+  const toggleMute = () => {
+    setIsMuted((prev: boolean) => {
+      const next = !prev
+      localStorage.setItem("velorah-sound-muted", JSON.stringify(next))
+      return next
+    })
+  }
 
   useEffect(() => {
     if (isRunning) {
@@ -86,24 +100,15 @@ export function Zen() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
-      <ThemeBackground theme={activeTheme} />
+      <ThemeBackground theme={activeTheme} isMuted={isMuted} />
 
-      <nav className="relative z-10 flex flex-row items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <Link
-          to="/"
-          className="text-3xl tracking-tight text-foreground"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-        >
-          Velorah<sup className="text-xs">®</sup>
-        </Link>
-
-        <Link
-          to="/"
-          className="liquid-glass rounded-full px-6 py-2.5 text-sm text-foreground transition-transform hover:scale-[1.03]"
-        >
-          Exit Session
-        </Link>
-      </nav>
+      <Navbar
+        ctaLabel="Exit Session"
+        ctaTo="/"
+        minimal={true}
+        isMuted={isMuted}
+        onMuteToggle={toggleMute}
+      />
 
       <section className="relative z-10 flex flex-col items-center text-center px-6 pt-12 pb-24 min-h-[calc(100vh-96px)] justify-center">
         <p className="animate-fade-rise text-xs uppercase tracking-[0.35em] text-muted-foreground">

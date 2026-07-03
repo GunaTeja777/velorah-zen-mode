@@ -4,13 +4,11 @@ import { HERO_VIDEO_URL } from "@/lib/constants"
 interface BackgroundVideoProps {
   src?: string
   muted?: boolean
-  isZoomed?: boolean
 }
 
 export function BackgroundVideo({
   src = HERO_VIDEO_URL,
   muted = true,
-  isZoomed = true,
 }: BackgroundVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -44,10 +42,9 @@ export function BackgroundVideo({
   return (
     <video
       ref={videoRef}
-      className="absolute inset-0 w-full h-full z-0 transition-all duration-700 ease-in-out"
+      className="absolute inset-0 w-full h-full z-0"
       style={{
-        objectFit: isZoomed ? "cover" : "contain",
-        backgroundColor: "#07121b", // Sleek dark backing for fit/contain mode
+        objectFit: "cover",
       }}
       autoPlay
       loop

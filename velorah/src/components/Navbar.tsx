@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Volume2, VolumeX, Maximize2, Minimize2 } from "lucide-react"
+import { Volume2, VolumeX } from "lucide-react"
 
 const NAV_LINKS = ["Home", "Studio", "About", "Journal", "Reach Us"]
 
@@ -10,8 +10,6 @@ interface NavbarProps {
   onCtaClick?: () => void
   isMuted?: boolean
   onMuteToggle?: () => void
-  isZoomed?: boolean
-  onZoomToggle?: () => void
   minimal?: boolean
 }
 
@@ -22,8 +20,6 @@ export function Navbar({
   onCtaClick,
   isMuted = true,
   onMuteToggle,
-  isZoomed = true,
-  onZoomToggle,
   minimal = false,
 }: NavbarProps) {
   const cta = ctaTo ? (
@@ -71,20 +67,6 @@ export function Navbar({
       )}
 
       <div className="flex items-center gap-3">
-        {onZoomToggle && (
-          <button
-            onClick={onZoomToggle}
-            className="liquid-glass rounded-full p-2.5 text-foreground transition-transform hover:scale-[1.03]"
-            title={isZoomed ? "Fit to Screen" : "Fill Screen"}
-          >
-            {isZoomed ? (
-              <Minimize2 className="h-4 w-4" strokeWidth={1.5} />
-            ) : (
-              <Maximize2 className="h-4 w-4" strokeWidth={1.5} />
-            )}
-          </button>
-        )}
-        
         {onMuteToggle && (
           <button
             onClick={onMuteToggle}
