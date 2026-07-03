@@ -7,7 +7,7 @@ export function Hero() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
-      <BackgroundVideo />
+      <BackgroundVideo src="/Create_a_cinematic_ultra_real.mp4" />
 
       <Navbar active="Home" ctaTo="/zen" />
 
